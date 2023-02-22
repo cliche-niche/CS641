@@ -2,4 +2,6 @@ This repository contains assignment submissions made in the course CS648 (2022-2
 
 The solutions (only the commands used) for each assignment have been provided in [Solutions](./Solutions.md). A brief overview of each assignment has been given below:
 
-+ [Assignment 1:](./A1/) Final code deciphered based on substitution/shift ciphers.
++ [Assignment 1:](./A1/) Final code deciphered based on Substitution ciphers.
++ [Assignment 2:](./A2/) Final code deciphered based on Vigenere cipher.
++ [Assignment 3:](./A3/) Final code deciphered based on Substitution Permutation Network.
