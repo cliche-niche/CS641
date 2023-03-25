@@ -31,3 +31,23 @@ thrnxxtzy
 read
 the_magic_of_wand
 ```
+
+Level 4:
+```
+
+go
+jump
+back
+back
+enter
+wave
+back
+enter
+climb
+back
+back
+thrnxxtzy
+read
+the_magic_of_wand
+read
+```
