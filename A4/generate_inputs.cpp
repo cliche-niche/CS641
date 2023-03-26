@@ -11,7 +11,7 @@ using namespace std;
 int main(){
     FILE *fr;
     fr = fopen("input.txt","w+");
-    string diff = bitset<64> (5940).to_string();
+    string diff = bitset<64> (158467381809152).to_string();
     // string input [100000];
     for (int i = 0; i < 100000; i++){
         string s = bitset<64> (i).to_string();
