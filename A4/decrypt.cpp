@@ -28,7 +28,7 @@ int main(){
                        {58, 50, 42, 34, 26, 18, 10, 2},
                        {60, 52, 44, 36, 28, 20, 12, 4},
                        {62, 54, 46, 38, 30, 22, 14, 6},
-                       {64, 56, 48, 40, 32, 24, 16, 8}};
+                       {64, 56, 48, 40, 32, 24, 16, 8}}; //make it 1d array and change the code
 
     int inv_fper[200000][64];
     for(int i = 0; i < 200000; i++){
@@ -39,7 +39,8 @@ int main(){
 
     // Apply Expansion on R5=L6
     int expansion [48] ={32,1,2,3,4,5,4,5,6,7,8,9,8,9,10,11,12,13,12,13,14,15,16,17,16,17,
-             18,19,20,21,20,21,22,23,24,25,24,25,26,27,28,29,28,29,30,31,32,1}
+             18,19,20,21,20,21,22,23,24,25,24,25,26,27,28,29,28,29,30,31,32,1};
+             //this is cool
 
     int ex_out [200000][48];
     for(int i = 0; i < 200000; i++){
@@ -57,6 +58,7 @@ int main(){
             else s_in_xor[i/2][j]=1; 
         }
     }
+    //cool
 
     // XORed Fiestal output
     int in_xor[100000][64];
@@ -75,6 +77,7 @@ int main(){
     }
 
     // Apply inverse permutation on Fiestal output
+    //make it 1d array
     int inv_perm [120][32];
     for(int i = 0; i < 120; i++){
         for(int j = 0; j < 32; j++){
@@ -99,6 +102,7 @@ int main(){
                 t_s_ex_out1[k] = ex_out[i][j*6+k];
             int a1[6];
             int a2[6];
+            // for k in range (64)
             for(int l = 0; l < 64; l++){
                 string a = bitset<6> (l).to_string();
                 for(int m = 0; m < 6; m++){
@@ -115,8 +119,29 @@ int main(){
                     else s_a1_xor_a2[m]=1;
                 }
 
+                int flag = 1;
+                int key [6];
+                for(int m = 0; m < 6; m++){
+                    if(s_a1_xor_a2[m]!=t_s_out_xor[m]) flag = 0;
+                }
+                if(flag){
+                    for(int m = 0; m < 6; m++){
+                        if(t_ex_out1[m]==a1[m]) key[m]=0;
+                        else key[m]=1;
+                    }
+                    keys[j][key[0]+key[1]*2+key[2]*4+key[3]*8+key[4]*16+key[5]*32]+=1; //take care of initialising 2d array to 0
+                }
+
+
             }
         }
+    }
+
+    int sboxes [5] = {} //initialise here
+    int k6_sbox [5][6];
+    int freq
+    for (int i = 0; i < 5; i++){
+        //code not completed
     }
     
 
