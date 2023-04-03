@@ -1,3 +1,3 @@
-g++ main.cpp data_structs.cpp -o main
+g++ main.cpp -o main
 ./main
 rm *.exe
