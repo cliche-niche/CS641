@@ -34,7 +34,6 @@ the_magic_of_wand
 
 Level 4:
 ```
-
 go
 jump
 back
@@ -49,5 +48,14 @@ back
 thrnxxtzy
 read
 the_magic_of_wand
+read
+```
+
+Level 5:
+```
+go
+wave
+dive
+go
 read
 ```
