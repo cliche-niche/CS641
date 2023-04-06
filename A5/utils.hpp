@@ -1,6 +1,10 @@
 #ifndef DATA_STRUCTS_HPP
 #define DATA_STRUCTS_HPP
 
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <vector>
 #include <bits/stdc++.h>
 
 using namespace std;
