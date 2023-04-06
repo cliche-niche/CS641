@@ -80,6 +80,49 @@ string conv_to_string(vector<int> v){
     return s;
 }
 
+vector <int> string_to_vector(string line){
+    int vector_element;
+    vector <int> line_vector;
+    if (line.size() != 16){
+        cout << "Invalid output line." << endl;
+        exit(1);
+    } 
+    else{
+        for(int j=0; j<16; j+=2){
+            vector_element = to_int(line[j],line[j+1]);
+            line_vector.push_back(vector_element);
+        }
+        return line_vector;
+    }
+}
+
+vector <vector <int>> get_vectors_i (int i, string filename){
+    // string filename = "fout.txt"
+    vector <vector <int>> vectors_i;
+    vector <int> line_vector;
+    
+    int n = 128*(i-1)+1; 
+    int m = 128*(i); 
+    string line;
+    int current_line = 1;
+
+    ifstream infile(filename);
+    if (infile.is_open()) {
+        while (getline(infile, line)) {
+            if (current_line >= n && current_line <= m) {
+                line_vector = string_to_vector(line);
+                vectors_i.push_back(line_vector);
+            }
+            if (current_line > m) {
+                break;
+            }
+            current_line++;
+        }
+        infile.close();
+    }
+    return vectors_i;
+}
+
 int add(int a, int b){
     int r = (a ^ b);
     if(r & (1 << 7)){
