@@ -198,8 +198,7 @@ vector<int> solve_tria(vector<int> v){      // @TODO
 set< vector<int> > solve_diag(vector<int> v){
     vector<int> sol(2);                 // sol[0] = a_{ii}, sol[1] = e_i
 
-    set< vector<int> > candidates, new_cands; // candidates are all a_{ii} and e_i. new_cands are the 
-
+    set< vector<int> > candidates, new_cands; 
     for(int a = 0; a < 128; a++){
         for(int e = 0; e < 127; e++){
             sol[0] = a;
@@ -208,12 +207,12 @@ set< vector<int> > solve_diag(vector<int> v){
         }
     }
 
-    for(int i = 0; i < v.size(); i++){ // for all 8 i's? why are we doing this?
+    for(int i = 0; i < v.size(); i++){ 
         new_cands.clear();
 
         for(auto c : candidates){
-            if(eval_diag(i+1, c[0], c[1]) == v[i]){ // makes sense
-                new_cands.insert(c); // yep
+            if(eval_diag(i+1, c[0], c[1]) == v[i]){ 
+                new_cands.insert(c); 
             }
         }
 
@@ -229,9 +228,10 @@ int main(){
     vector <vector <int>> vectors_i;
     set < vector<int> > new_new_cands;
     set < vector<int> > new_cands;
-    vectors_i = get_vectors_i(7, "fout.txt");
+    vectors_i = get_vectors_i(6, "fout.txt");
     for (int k = 0; k < vectors_i.size(); k++){
         new_cands = solve_diag(vectors_i[k]);
+        cout<<new_cands.size()<<endl;
         for (const auto& vec : new_cands) {
             for (const auto& elem : vec) {
                 cout << elem << " ";
