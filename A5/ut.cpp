@@ -1,10 +1,8 @@
-#ifndef DATA_STRUCTS_HPP
-#define DATA_STRUCTS_HPP
-
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <vector>
+#include <set>
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -22,7 +20,7 @@ int exp(int, int);
 void fill_pows();
 
 int eval_diag(int, int, int);
-vector<int> solve_diag(vector<int>);
+set< vector<int> > solve_diag(vector<int>);
 vector<int> solve_tria(vector<int>);
 
 
@@ -84,6 +82,16 @@ string conv_to_string(vector<int> v){
     return s;
 }
 
+int find_i(vector<int> out){
+    for(int k=0; k<out.size(); k+=1){
+        if(out[k]!=0){
+            return k+1;
+        }
+    }   
+}
+
+
+
 vector <int> string_to_vector(string line){
     int vector_element;
     vector <int> line_vector;
@@ -127,6 +135,30 @@ vector <vector <int>> get_vectors_i (int i, string filename){
     return vectors_i;
 }
 
+int exp(int a, int e){
+    int r = 1;
+
+    while(e){
+        if(e & 1){
+            r = mul(r, a);
+        }
+        a = mul(a, a);
+        e >>= 1;
+    }
+
+    return r;
+}
+
+void fill_pows(){
+    for(int v = 0; v < pows.size(); v++){
+        pows[v][0] = 1;
+        for(int e = 1; e < pows[v].size(); e++){
+            pows[v][e] = mul(pows[v][e-1], v);
+        }
+    }
+
+}
+
 int add(int a, int b){
     int r = (a ^ b);
     if(r & (1 << 7)){
@@ -153,39 +185,20 @@ int mul(int a, int b){
     return r;
 }
 
-int exp(int a, int e){
-    int r = 1;
-
-    while(e){
-        if(e & 1){
-            r = mul(r, a);
-        }
-        a = mul(a, a);
-        e >>= 1;
-    }
-
-    return r;
-}
-
-void fill_pows(){
-    for(int v = 0; v < pows.size(); v++){
-        pows[v][0] = 1;
-        for(int e = 1; e < pows[v].size(); e++){
-            pows[v][e] = mul(pows[v][e-1], v);
-        }
-    }
-
-}
-
 int eval_diag(int v, int a, int e){     // v EAEAE = (((v_i)^e_i a_ii)^e_i a_ii)^e_i
-    return exp(mul(exp(mul(exp(v, e), a), e), a), e); 
+    return exp(mul(exp(mul(exp(v, e), a), e), a), e); // v = x
 }
 
-vector<int> solve_diag(vector<int> v){
+
+vector<int> solve_tria(vector<int> v){      // @TODO
+    vector<int> sol(2);     // sol[0] = a_{ii}, sol[1] = e_i
+    return sol;
+}
+
+set< vector<int> > solve_diag(vector<int> v){
     vector<int> sol(2);                 // sol[0] = a_{ii}, sol[1] = e_i
 
-    set< vector<int> > candidates, new_cands;
-
+    set< vector<int> > candidates, new_cands; 
     for(int a = 0; a < 128; a++){
         for(int e = 0; e < 127; e++){
             sol[0] = a;
@@ -194,24 +207,42 @@ vector<int> solve_diag(vector<int> v){
         }
     }
 
-    for(int i = 0; i < v.size(); i++){
+    for(int i = 0; i < v.size(); i++){ 
         new_cands.clear();
 
         for(auto c : candidates){
-            if(eval_diag(i+1, c[0], c[1]) == v[i]){
-                new_cands.insert(c);
+            if(eval_diag(i+1, c[0], c[1]) == v[i]){ 
+                new_cands.insert(c); 
             }
         }
 
-        candidates = new_cands;
+        candidates = new_cands; 
     }
 
-    return sol;
+    return candidates;
 }
 
-vector<int> solve_tria(vector<int> v){      // @TODO
-    vector<int> sol(2);     // sol[0] = a_{ii}, sol[1] = e_i
-    return sol;
-}
 
-#endif
+
+int main(){
+    vector <vector <int>> vectors_i;
+    set < vector<int> > new_new_cands;
+    set < vector<int> > new_cands;
+    vectors_i = get_vectors_i(6, "fout.txt");
+    for (int k = 0; k < vectors_i.size(); k++){
+        new_cands = solve_diag(vectors_i[k]);
+        cout<<new_cands.size()<<endl;
+        for (const auto& vec : new_cands) {
+            for (const auto& elem : vec) {
+                cout << elem << " ";
+            }
+        cout << std::endl;
+    }
+    }
+    // for(int i = 0; i < 128; i++){
+    //     for(int j = 0; j < 8; j++){
+    //         cout << vectors_i[i][j]<<" ";
+    //     }
+    //     cout<<endl;
+    // }
+}
