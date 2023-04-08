@@ -1,10 +1,6 @@
 #ifndef DATA_STRUCTS_HPP
 #define DATA_STRUCTS_HPP
 
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <vector>
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -19,12 +15,18 @@ string conv_to_string(vector<int>);
 int add(int, int);
 int mul(int, int);
 int exp(int, int);
-void fill_pows();
 
+int find_i(vector<int>);
+vector< vector<int> > get_vectors_i(int, string);
+
+set< vector<int> > solve_diag(vector<int>);
+bool check_sol(int, int, vector< vector<int> >, vector< vector<int> >, vector<int>);
 int eval_diag(int, int, int);
-vector<int> solve_diag(vector<int>);
-vector<int> solve_tria(vector<int>);
+vector<int> vector_exponent(vector<int>, const vector<int>&);
+vector<int> vector_matrix(vector<int>, const vector< vector<int> > );
+vector<int> simulate_aes(vector<int>, const vector<int>, const vector< vector<int> >);
 
+void inc_vector(vector<int>&);
 
 int to_int(char a, char b){
     if(a < 'f' || a > 'm'){
@@ -91,17 +93,24 @@ vector <int> string_to_vector(string line){
         cout << "Invalid output line." << endl;
         exit(1);
     } 
-    else{
-        for(int j=0; j<16; j+=2){
-            vector_element = to_int(line[j],line[j+1]);
-            line_vector.push_back(vector_element);
-        }
-        return line_vector;
+    
+    for(int j = 0; j < 16; j += 2){
+        line_vector.push_back(to_int(line[j], line[j + 1]));
     }
+    return line_vector;
 }
 
-vector <vector <int>> get_vectors_i (int i, string filename){
-    // string filename = "fout.txt"
+int find_i(vector<int> out){
+    for(int i = 0; i < out.size(); i++){
+        if(out[i] != 0){
+            return i + 1;
+        }
+    }
+    return 0;
+}
+
+vector <vector <int> > get_vectors_i (int i, string filename = "fout.txt"){
+    // 1-based indexing on i
     vector <vector <int>> vectors_i;
     vector <int> line_vector;
     
@@ -122,8 +131,8 @@ vector <vector <int>> get_vectors_i (int i, string filename){
             }
             current_line++;
         }
-        infile.close();
     }
+    infile.close();
     return vectors_i;
 }
 
@@ -167,21 +176,7 @@ int exp(int a, int e){
     return r;
 }
 
-void fill_pows(){
-    for(int v = 0; v < pows.size(); v++){
-        pows[v][0] = 1;
-        for(int e = 1; e < pows[v].size(); e++){
-            pows[v][e] = mul(pows[v][e-1], v);
-        }
-    }
-
-}
-
-int eval_diag(int v, int a, int e){     // v EAEAE = (((v_i)^e_i a_ii)^e_i a_ii)^e_i
-    return exp(mul(exp(mul(exp(v, e), a), e), a), e); 
-}
-
-vector<int> solve_diag(vector<int> v){
+set< vector<int> > solve_diag(vector<int> v){
     vector<int> sol(2);                 // sol[0] = a_{ii}, sol[1] = e_i
 
     set< vector<int> > candidates, new_cands;
@@ -198,7 +193,7 @@ vector<int> solve_diag(vector<int> v){
         new_cands.clear();
 
         for(auto c : candidates){
-            if(eval_diag(i+1, c[0], c[1]) == v[i]){
+            if(eval_diag(i, c[0], c[1]) == v[i]){
                 new_cands.insert(c);
             }
         }
@@ -206,12 +201,67 @@ vector<int> solve_diag(vector<int> v){
         candidates = new_cands;
     }
 
-    return sol;
+    return candidates;
 }
 
-vector<int> solve_tria(vector<int> v){      // @TODO
-    vector<int> sol(2);     // sol[0] = a_{ii}, sol[1] = e_i
-    return sol;
+bool check_sol(int i, int k, vector< vector<int> > outputs, vector< vector<int> > a, vector<int> e){
+    vector<int> v(8, 0), res;
+
+    for(int c = 0; c < 128; c++){
+        v[i] = c;
+        res = simulate_aes(v, e, a);
+
+        for(int j = i; j <= i + k; j++){
+            if(res[j] != outputs[c][j]){
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+int eval_diag(int v, int a, int e){     // v EAEAE = (((v_i)^e_i a_ii)^e_i a_ii)^e_i
+    return exp(mul(exp(mul(exp(v, e), a), e), a), e); 
+}
+
+vector<int> vector_exponent(vector<int> v, const vector<int> (&e)){
+    for(int i = 0; i < 8; i++){
+        v[i] = exp(v[i], e[i]);
+    }
+    return v;
+}
+
+vector<int> vector_matrix(vector<int> v, const vector< vector<int> > a){
+    vector<int> p(8, 0);
+
+    for(int j = 0; j < 8; j++){
+        for(int i = 0; i < 8; i++){
+            p[j] = add(p[j], mul(v[i], a[i][j]));
+        }
+    }
+
+    return p;
+}
+
+vector<int> simulate_aes(vector<int> v, const vector<int> e, const vector< vector<int> > a){
+    v = vector_exponent(v, e);
+    v = vector_matrix(v, a);
+    v = vector_exponent(v, e);
+    v = vector_matrix(v, a);
+    v = vector_exponent(v, e);
+    
+    return v;
+}
+
+void inc_vector(vector<int> (&v)){
+    for(auto &c : v){
+        if(c == 15){
+            c = 0;
+        }else{
+            c++;
+        }
+    }
 }
 
 #endif
