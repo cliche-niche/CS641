@@ -12,6 +12,7 @@ int to_int(char, char);
 int to_int(string);
 string conv_to_string(int);
 string conv_to_string(vector<int>);
+string mul_string(string, int);
 int add(int, int);
 int mul(int, int);
 int exp(int, int);
@@ -27,6 +28,7 @@ vector<int> vector_matrix(vector<int>, const vector< vector<int> > );
 vector<int> simulate_aes(vector<int>, const vector<int>, const vector< vector<int> >);
 
 void inc_vector(vector<int>&);
+
 
 int to_int(char a, char b){
     if(a < 'f' || a > 'm'){
@@ -244,6 +246,14 @@ vector<int> vector_matrix(vector<int> v, const vector< vector<int> > a){
     return p;
 }
 
+string mul_string(string operand_string, int n){
+    string multiplied_string = "";
+    for(int i = 0; i < n; i++){
+        multiplied_string += operand_string;
+    }
+    return multiplied_string;
+}
+
 vector<int> simulate_aes(vector<int> v, const vector<int> e, const vector< vector<int> > a){
     v = vector_exponent(v, e);
     v = vector_matrix(v, a);
@@ -262,6 +272,38 @@ void inc_vector(vector<int> (&v)){
             c++;
         }
     }
+}
+
+string to_ascii_string(string decrypted_password){
+    if(decrypted_password.size() != 32){
+        cout << "Decrypted password is incorrect." << endl;
+        exit(1);
+    }
+    else{
+        string required_password = "";
+        for (int i = 0; i < 32; i+=2){
+            string s = decrypted_password.substr(i,2);
+            char c = 16*(s[0] - 'f') + (s[1]-'f');
+            required_password += c;
+        }
+        return required_password;
+    }
+}
+
+string decrypt_password(string half_encrypted_password, const vector<int> e, const vector< vector<int> > a){
+    vector <int> half_encrypted_password_vector = string_to_vector(half_encrypted_password);
+    string half_decrypted_password = "";
+    for(int p = 0; p < 8; p++){
+        for(int q = 0; q < 128; q++){
+            string input = half_decrypted_password + conv_to_string(q) + mul_string("f", 14-half_decrypted_password.size());
+            if (half_encrypted_password_vector[p] == simulate_aes(string_to_vector(input), e, a)[p]){
+                half_decrypted_password += conv_to_string(q);
+                break;
+            }
+
+        }
+    }
+    return half_decrypted_password;
 }
 
 #endif
