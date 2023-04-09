@@ -74,7 +74,8 @@ int main(){
                 }
             }
         }else{
-            break;
+            cout << "Multiple solutions found for a[" << i << "][" << i + 1 << "]" << endl;
+            return 0; 
         }
     }
     // * At this point, we know a_{ii}, e_i, a_{i, i+1} of the matrix exactly
@@ -94,6 +95,9 @@ int main(){
 
             if(cands == 1){
                 a[i][i + l] = candidate;
+            }else{
+                cout << "Multiple solutions found for a[" << i << "][" << i + l << "]" << endl;
+                return 0; 
             }
         }
     }

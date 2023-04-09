@@ -210,17 +210,18 @@ set< vector<int> > solve_diag(vector<int> v){
 }
 
 bool check_sol(int i, int k, vector< vector<int> > outputs, vector< vector<int> > a, vector<int> e){
+    // Solves for a_{i, i+k}
     vector<int> v(8, 0), res;
 
     for(int c = 0; c < 128; c++){
         v[i] = c;
         res = simulate_aes(v, e, a);
 
-        for(int j = i; j <= i + k; j++){
-            if(res[j] != outputs[c][j]){
+        // for(int j = i; j <= i + k; j++){
+            if(res[i + k] != outputs[c][i + k]){
                 return false;
             }
-        }
+        // }
     }
 
     return true;
