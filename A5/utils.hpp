@@ -28,6 +28,9 @@ vector<int> vector_matrix(vector<int>, const vector< vector<int> > );
 vector<int> simulate_aes(vector<int>, const vector<int>, const vector< vector<int> >);
 
 void inc_vector(vector<int>&);
+string to_ascii_string(string);
+string decrypt_password(string, const vector<int>, const vector< vector<int> >);
+
 
 
 int to_int(char a, char b){
