@@ -1,5 +1,5 @@
-#ifndef DATA_STRUCTS_HPP
-#define DATA_STRUCTS_HPP
+#ifndef UTILS_HPP
+#define UTILS_HPP
 
 #include <bits/stdc++.h>
 
@@ -286,7 +286,7 @@ string to_ascii_string(string decrypted_password){
         string required_password = "";
         for (int i = 0; i < 32; i+=2){
             string s = decrypted_password.substr(i,2);
-            char c = 16*(s[0] - 'f') + (s[1]-'f');
+            char c = 16 * (s[0] - 'f') + (s[1] - 'f');
             required_password += c;
         }
         return required_password;
