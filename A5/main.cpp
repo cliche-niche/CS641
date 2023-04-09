@@ -117,6 +117,30 @@ int main(){
         cout << "]" << endl;
     }
     cout << "]\n" << endl;
+    
+    string encrypted_password = "gsgogpgflqlffhgrikljjmijfgjqjpio";
+    cout << "The given encrypted password is:\t\t\t\t" << encrypted_password << endl;
+
+    // Block size = 16. Hence we divide 32 length password into two substrings.
+    string left_encrypted_password = encrypted_password.substr(0,16);
+    string right_encrypted_password = encrypted_password.substr(16,16);
+
+    string decrypted_password = decrypt_password(left_encrypted_password, e, a) + decrypt_password(right_encrypted_password, e, a);
+    cout << "The decrypted password is:\t\t\t\t\t" << decrypted_password << endl;
+
+    string required_password = to_ascii_string(decrypted_password);
+    cout << "The ASCII string corresponding to the decrypted password is:\t" << required_password << endl;
+
+    cout << "The required password after removing trailing 0s is:\t\t";
+    // Removing trailing 0s
+    for(int i = required_password.size()-1; i >= 0; i--){
+        if(required_password[i]!='0'){
+            for(int j = 0; j <= i; j++){
+                cout << required_password[j];
+            }
+            break;
+        }         
+    }
 
     return 0;
 }
