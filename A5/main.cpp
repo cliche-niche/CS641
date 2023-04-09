@@ -118,6 +118,9 @@ int main(){
     }
     cout << "]\n" << endl;
     
+    
+    // Figuring out the required password
+    
     string encrypted_password = "gsgogpgflqlffhgrikljjmijfgjqjpio";
     cout << "The given encrypted password is:\t\t\t\t" << encrypted_password << endl;
 
