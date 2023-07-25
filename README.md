@@ -1,4 +1,4 @@
-This repository contains assignment submissions made in the course CS641 (2022-23 II Sem.) at IIT-K in a team of three (Priya ["priyagole"](https://github.com/priyagole) Gole, Shrilakshmi ["shrilakshmisk"](https://github.com/shrilakshmisk) S K and me, Aditya ["cliche-niche"](https://github.com/cliche-niche) Tanwar).
+This repository contains assignment submissions made in the course CS641 (2022-23 II Sem.) at IIT-K in a team (Team Name: `cap_turing`) of three (Priya ["priyagole"](https://github.com/priyagole) Gole, Shrilakshmi ["shrilakshmisk"](https://github.com/shrilakshmisk) S K and me, Aditya ["cliche-niche"](https://github.com/cliche-niche) Tanwar).
 
 ### Notes
 The notes that I made for this course can be found [here](./Notes.pdf). I would like to acknowledge Prof. Manindra Agrawal for these notes since I could make them only with the help of his lectures and lecture slides.
